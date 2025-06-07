@@ -1,0 +1,16 @@
+version: "3.0"
+
+services: 
+  db:
+    image: mysql:8
+    container_name: mysql-app
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d

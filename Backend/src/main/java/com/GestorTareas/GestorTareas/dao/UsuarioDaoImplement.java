@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dacom.GestorTareas.GestorTareas.dao;
+package com.GestorTareas.GestorTareas.dao;
 
 import com.GestorTareas.GestorTareas.model.Usuario;
 import java.sql.Connection;
@@ -28,10 +28,10 @@ public class UsuarioDaoImplement implements UsuarioDao {
             PreparedStatement pst = con.prepareStatement(consulta) ){
             pst.setString(1, user.getId());
             pst.setString(2, user.getNombre());
-            pst.setString(3, user.getContraseña());
+            pst.setString(3, user.getContrasena());
             resultado = pst.executeUpdate();
         } catch(SQLException e){
-            
+            e.printStackTrace();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -46,8 +46,13 @@ public class UsuarioDaoImplement implements UsuarioDao {
              PreparedStatement pst = con.prepareStatement(consulta)){ 
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
-            user = convertResultToUser(rs);
+            if (rs.next()) {
+                System.out.println("simon");
+                user = convertResultToUser(rs);
+            }
         } catch (Exception e) {
+            System.out.println("aca esta el error");
+            e.printStackTrace();
         }
         return user;
     }
@@ -59,7 +64,7 @@ public class UsuarioDaoImplement implements UsuarioDao {
                 String password = rs.getString("password");
                 user = new Usuario();
                 user.setNombre(nombre);
-                user.setContraseña(password);
+                user.setContrasena(password);
                 user.setId(id);
             } catch (SQLException ex) {
                 throw new RuntimeException("Error de conversion");
@@ -84,7 +89,6 @@ public class UsuarioDaoImplement implements UsuarioDao {
         return resultado > 0;
             
     }
-
     @Override
     public List<Usuario> getUsers() {
         String consulta = "select * from usuarios";
@@ -100,5 +104,24 @@ public class UsuarioDaoImplement implements UsuarioDao {
         } catch (Exception e) {
         }
         return lista;
+    }
+
+    @Override
+    public boolean updateUser(Usuario user) {
+        String consulta = "update usuarios set nombre = ?, password = ? where id = ?";
+        int resultado = 0;
+        try (Connection con = ConexionSql.getConexion();
+             PreparedStatement pst = con.prepareStatement(consulta)){
+            pst.setString(1, user.getNombre());
+            pst.setString(2, user.getContrasena());
+            pst.setString(3, user.getId());
+            resultado = pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //throw new RuntimeException("Error al acualizar al usuario");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado > 0;
     }
 }

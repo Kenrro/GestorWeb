@@ -11,7 +11,7 @@ public class Usuario {
 
     private String id;
     private String nombre;
-    private String contraseña;
+    private String contrasena;
 
     public Usuario() {
     }
@@ -19,13 +19,16 @@ public class Usuario {
     public Usuario(String nombre, String contraseña) {
         this.id = UUID.randomUUID().toString();
         this.nombre = nombre;
-        this.contraseña = contraseña;
+        this.contrasena = contraseña;
     }
 
     public String getId() {
         return id;
     }
 
+    public void setId() {
+        this.id = UUID.randomUUID().toString();
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -38,12 +41,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
     
 

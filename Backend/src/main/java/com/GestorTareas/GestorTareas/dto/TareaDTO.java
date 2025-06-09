@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.GestorTareas.GestorTareas.model;
+package com.GestorTareas.GestorTareas.dto;
 
-import java.util.UUID;
-
-
-public class Tarea {
+/**
+ *
+ * @author kenrr
+ */
+public class TareaDTO {
     
     private String id;
     private String id_usuario;
@@ -17,10 +18,7 @@ public class Tarea {
     public String getId() {
         return id;
     }
-    //Genera el hash de id
-    public void setId() {
-        this.id = UUID.randomUUID().toString();
-    }
+
     public void setId(String id) {
         this.id = id;
     }

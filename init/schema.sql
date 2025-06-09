@@ -5,9 +5,9 @@ CREATE TABLE usuarios (
 );
 
 CREATE TABLE tareas (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id VARCHAR(100) PRIMARY KEY,
     descripcion VARCHAR(255),
-    completada BOOLEAN,
-    usuario_id BIGINT,
+    completada BOOLEAN default FALSE,
+    usuario_id VARCHAR(100),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );

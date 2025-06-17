@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,35 +26,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsuarioController {
     // Obtine un usuario especifico por su id
-    @GetMapping("/user/{id}")
-    public UsuarioDTO getUsuario(@PathVariable String id){
-        return UsuarioService.getUsuario(id);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable String id){
+        UsuarioDTO usuario = UsuarioService.getUsuario(id);
+        return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
     // Obtiene la lista de usuarios
-    @GetMapping("/user")
-    public List<Usuario> getUsuarios(){
-        return new UsuarioDaoImplement().getUsers();
+    @GetMapping("/users")
+    public ResponseEntity<List<Usuario>> getUsuarios(){
+        List<Usuario> lista = new UsuarioDaoImplement().getUsers();
+        return ResponseEntity.ok(lista);
     }
-    // Crear un usuario a partir del siguiente json
-    /*{
-        "id": "27d02720-3177-4a1b-80db-bc6520a87146",
-        "nombre": "Josefa",
-        "contrasena": "20032003"
-    }*/
-    @PostMapping("/user")
-    public UsuarioDTO createUsuario(@RequestBody Usuario user){
-        return UsuarioService.crearUsuario(user);
+   
+    @PostMapping("/users")
+    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody Usuario user){
+        UsuarioDTO nuevo = UsuarioService.crearUsuario(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
         
     }
     // Elimina a un usuario a traves de su id
-    @DeleteMapping("/user/{id}")
-    public boolean deleteUsuario(@PathVariable String id){
-        return UsuarioService.deleteUser(id);
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable String id){
+        boolean eliminado = UsuarioService.deleteUser(id);
+        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
     // Actualiza al usuario
-    @PutMapping("/user")
-    public UsuarioDTO updateUsuario(@RequestBody Usuario usuario){
-        return UsuarioService.updateUser(usuario);
+    @PutMapping("/users")
+    public ResponseEntity<UsuarioDTO> updateUsuario(@RequestBody Usuario usuario){
+        UsuarioDTO actualizado = UsuarioService.updateUser(usuario);
+        return actualizado != null ? ResponseEntity.ok(actualizado) : ResponseEntity.notFound().build();    
     }
     
     

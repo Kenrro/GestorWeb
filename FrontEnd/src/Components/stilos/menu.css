@@ -1,0 +1,8 @@
+#menu {
+    width: 100%;
+    background-color: rgb(4, 0, 59);
+    padding: 0.5em;
+}
+    #menu h1 {
+        font-weight: bold;
+    }

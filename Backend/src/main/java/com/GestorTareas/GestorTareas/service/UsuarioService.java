@@ -17,7 +17,10 @@ public class UsuarioService {
         private static UsuarioDTO convertUsuarioToDto(Usuario user){
             UsuarioDTO dto = new UsuarioDTO();
             dto.setId(user.getId());
+            dto.setUserName(user.getUserName());
             dto.setNombre(user.getNombre());
+            dto.setApellido(user.getApellido());
+            dto.setFechCreacion(user.getFechCreacion());
             return dto;
         }
     

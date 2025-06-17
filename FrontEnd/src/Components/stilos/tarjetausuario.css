@@ -1,0 +1,35 @@
+.TarjetaUsuario {
+    border: 2px solid black;
+    border: 2px solid  #59f;
+    max-width: 200px;
+    padding: 0.50em;
+    border-left: 5px solid rgba(162, 255, 99, 0.986);
+    position: relative;
+}
+    .TarjetaUsuario * {
+        display: block;
+    }
+    .TarjetaUsuario h2 {
+        color: rgba(162, 255, 99, 0.986);
+        font-size: 0.7em;
+    }
+    .TarjetaUsuario span {
+        color: #59f;
+    }
+    .TarjetaUsuario button {
+        color: rgb(82, 1, 1);
+        background-color: rgb(20, 109, 243);
+        border-radius: 5px;
+        border: none;
+        padding: 0.25em;
+        float: right;
+    }
+    .TarjetaUsuario button:hover {
+        transform: scale(1.05);
+        background-color: rgb(74, 146, 255);
+        color: rgb(80, 102, 136);
+    }
+    .TarjetaUsuario button * {
+        text-decoration: none;
+        color: rgb(82, 1, 1);
+    }

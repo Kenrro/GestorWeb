@@ -108,16 +108,18 @@ public class TareaDaoImplement implements TareaDao {
     }
 
     @Override
-    public List<Tarea> getTareas() {
-        String consulta = "select * from tareas";
+    public List<Tarea> getTareas(String id) {
+        String consulta = "select * from tareas where usuario_id = ?";
         List<Tarea> lista = new ArrayList<>();
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(consulta)){
+            pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                Tarea tarea = convertResultsetToTarea(rs);
                lista.add(tarea);
             }
+            System.out.println(lista.size());
             
         } catch(SQLException e){
             e.printStackTrace();
@@ -126,5 +128,6 @@ public class TareaDaoImplement implements TareaDao {
             }
         return lista;
     }
+    
     
 }

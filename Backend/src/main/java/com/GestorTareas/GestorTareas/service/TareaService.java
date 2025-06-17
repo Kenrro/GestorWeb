@@ -78,10 +78,10 @@ public class TareaService {
         }
         return resultado;
     }
-    public static List<Tarea> getTareas(){
+    public static List<Tarea> getTareas(String id){
         List<Tarea> lista = new ArrayList<>();
         try {
-            lista = dao.getTareas();
+            lista = dao.getTareas(id);
         } catch (Exception e) {
             e.printStackTrace();
         }

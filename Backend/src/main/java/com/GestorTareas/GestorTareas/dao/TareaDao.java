@@ -14,6 +14,6 @@ public interface TareaDao {
     public Tarea getTarea(String id);
     public boolean deleteTarea(String id);
     public boolean  updateTarea(Tarea tarea);
-    public List<Tarea> getTareas();
+    public List<Tarea> getTareas(String id);
     
 }

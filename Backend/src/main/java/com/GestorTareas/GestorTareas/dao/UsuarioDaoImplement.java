@@ -6,6 +6,7 @@ package com.GestorTareas.GestorTareas.dao;
 
 import com.GestorTareas.GestorTareas.model.Usuario;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,13 +23,15 @@ public class UsuarioDaoImplement implements UsuarioDao {
 
     @Override
     public boolean createUser(Usuario user) {
-        String consulta = "insert into usuarios (id, nombre, password) values (?,?,?)";
+        String consulta = "insert into usuarios (id, username, password, nombre, apellido) values (?,?,?,?,?)";
         int resultado = 0;
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(consulta) ){
             pst.setString(1, user.getId());
-            pst.setString(2, user.getNombre());
+            pst.setString(2, user.getUserName());
             pst.setString(3, user.getContrasena());
+            pst.setString(4, user.getNombre());
+            pst.setString(5, user.getApellido());
             resultado = pst.executeUpdate();
         } catch(SQLException e){
             e.printStackTrace();
@@ -60,12 +63,18 @@ public class UsuarioDaoImplement implements UsuarioDao {
             Usuario user = null;
             try {
                 String id = rs.getString("id");
-                String nombre = rs.getString("nombre");
+                String username = rs.getString("username");
                 String password = rs.getString("password");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                Date fech = rs.getDate("fech-creacion");
                 user = new Usuario();
-                user.setNombre(nombre);
+                user.setUserName(username);
                 user.setContrasena(password);
                 user.setId(id);
+                user.setNombre(nombre);
+                user.setApellido(apellido);
+                user.setFechCreacion(fech);
             } catch (SQLException ex) {
                 throw new RuntimeException("Error de conversion");
             }
@@ -112,7 +121,7 @@ public class UsuarioDaoImplement implements UsuarioDao {
         int resultado = 0;
         try (Connection con = ConexionSql.getConexion();
              PreparedStatement pst = con.prepareStatement(consulta)){
-            pst.setString(1, user.getNombre());
+            pst.setString(1, user.getUserName());
             pst.setString(2, user.getContrasena());
             pst.setString(3, user.getId());
             resultado = pst.executeUpdate();

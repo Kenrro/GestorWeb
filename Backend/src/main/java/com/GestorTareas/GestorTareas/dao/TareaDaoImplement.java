@@ -27,6 +27,8 @@ public class TareaDaoImplement implements TareaDao {
             tarea.setId(rs.getString("id"));
             tarea.setId_usuario(rs.getString("usuario_id"));
             tarea.setDescripcion(rs.getString("descripcion"));
+            tarea.setNombre(rs.getString("nombre"));
+            tarea.setFech_creacion(rs.getDate("fech-creacion"));
             
                 tarea.setEstado(rs.getBoolean("completada"));
             } catch (SQLException ex) {
@@ -36,13 +38,14 @@ public class TareaDaoImplement implements TareaDao {
         }
     @Override
     public boolean createTarea(Tarea tarea) {
-        String consulta = "insert into tareas (id, usuario_id, descripcion) values (?, ?, ?)";
+        String consulta = "insert into tareas (id, usuario_id, nombre, descripcion) values (?, ?, ?, ?)";
         int resultado = 0;
         try (Connection con = ConexionSql.getConexion();
              PreparedStatement pst = con.prepareStatement(consulta)){
             pst.setString(1, tarea.getId());
             pst.setString(2, tarea.getId_usuario());
-            pst.setString(3, tarea.getDescripcion());
+            pst.setString(3, tarea.getNombre());
+            pst.setString(4, tarea.getDescripcion());
             resultado = pst.executeUpdate();            
         } catch (SQLException e) {
             e.printStackTrace();

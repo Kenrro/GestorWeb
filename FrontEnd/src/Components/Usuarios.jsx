@@ -5,7 +5,7 @@ import TarjetaUsuario from "./TarjetaUsuario";
 
 const Usuarios = () => {
 const url = import.meta.env.VITE_API_USER
-const [state, setState] = useState([])
+const [state, setState] = useState()
 
 useEffect(()=>{
     console.log(url)
@@ -19,6 +19,7 @@ useEffect(()=>{
         })
 },[])
     if(!state) return <h1>Cargando...</h1>
+    
     return (
         <div className="wrap-usuarios">
             <h2>lista de usuarios</h2>
@@ -26,7 +27,7 @@ useEffect(()=>{
                 {state.map((usuario)=>(
                     <TarjetaUsuario
                     id={usuario.id}
-                    name={usuario.nombre}
+                    name={usuario.userName}
                     contraseña={usuario.contrasena}
                     />
                 ))}

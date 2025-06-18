@@ -8,8 +8,6 @@ package com.GestorTareas.GestorTareas.service;
 
 import com.GestorTareas.GestorTareas.dto.TareaDTO;
 import com.GestorTareas.GestorTareas.model.Tarea;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.GestorTareas.GestorTareas.dao.TareaDaoImplement;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +20,8 @@ public class TareaService {
             dto.setId(tarea.getId());
             dto.setDescripcion(tarea.getDescripcion());
             dto.setId_usuario(tarea.getId_usuario());
+            dto.setNombre(tarea.getNombre());
+            dto.setFech_creacion(tarea.getFech_creacion());
             dto.setEstado(tarea.isEstado());
             return dto;
         }

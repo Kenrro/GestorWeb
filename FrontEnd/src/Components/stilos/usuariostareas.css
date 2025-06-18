@@ -4,9 +4,18 @@
     grid-template-columns: repeat(auto-fit, minmax(400px,1fr));
 }
     #wrap-content .Wrap-info-usuario {
-        border: 1px solid black;
         width: 80%;
         margin: auto;
+        padding: 0.75em;
+        border: 1px solid #be5d;
+        background-color: #0002;
+    }
+    #wrap-content .Wrap-info-usuario > h2 {
+        font-size: 2em;
+        color: rgba(21, 212, 123, 0.867);
+    }
+    #wrap-content .Wrap-info-usuario span {
+        display: block;
     }
     #wrap-tareas {
         display: grid;
@@ -14,14 +23,21 @@
         gap: 1em;
 
     }
+        #wrap-tareas #wrap-encabezado-tareas {
+            text-align: center;
+        }
+    #wrap-tareas h2 {
+        height: 50px;
+    }
         #wrap-tareas .tarjeta-tarea {
             border: 1px solid black;
             background-color: #3335;
             padding: 0.5em;
             width: 60%;
         }
-        #wrap-tareas .tarjeta-tarea h3 {
-            font-size: 0.9em;
+        
+        #wrap-tareas .tarjeta-tarea span {
+
         }
 
         #wrap-tareas .tarjeta-tarea-pendiente {

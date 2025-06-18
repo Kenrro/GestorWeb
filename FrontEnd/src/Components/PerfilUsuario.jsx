@@ -13,8 +13,11 @@ const PerfilUsuario = ({id}) => {
     }, [id])
     return (
         <div className="Wrap-info-usuario">
-            <h2>{usuario.nombre}</h2>
-            <p>{usuario.id}</p>
+            <h2>{usuario.userName}</h2>
+            <span><strong>Nombre:</strong> {usuario.nombre}</span>
+            <span><strong>Apellido:</strong> {usuario.apellido}</span>
+            <span><strong>Fecha creacion:</strong> {usuario.fechCreacion}</span>
+            <p><strong>id:</strong>{usuario.id}</p>
         </div>
     )
 }

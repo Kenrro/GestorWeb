@@ -27,6 +27,8 @@ public class TareaController {
         "id_usuario": "",
         "descripcion": ""
         } 
+     * @param tarea
+     * @return 
      */
     @PostMapping("/tareas")
     public ResponseEntity<TareaDTO> createTarea(@RequestBody Tarea tarea){

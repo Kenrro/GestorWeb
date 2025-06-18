@@ -1,12 +1,23 @@
 #wrap-content{
     display: grid;
     padding: 1em;
-    grid-template-columns: repeat(auto-fit, minmax(400px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px,1fr));
 }
     #wrap-content .Wrap-info-usuario {
-        border: 1px solid black;
         width: 80%;
         margin: auto;
+        padding: 0.75em;
+        border: 1px solid #be5d;
+        background-color: #0002;
+        box-shadow: 0 0 50px black;
+        border-radius: 5px;
+    }
+    #wrap-content .Wrap-info-usuario > h2 {
+        font-size: 2em;
+        color: rgba(21, 212, 123, 0.867);
+    }
+    #wrap-content .Wrap-info-usuario span {
+        display: block;
     }
     #wrap-tareas {
         display: grid;
@@ -14,19 +25,66 @@
         gap: 1em;
 
     }
+        #wrap-tareas #wrap-encabezado-tareas {
+            text-align: center;
+        }
+    #wrap-tareas h2 {
+        height: 50px;
+    }
         #wrap-tareas .tarjeta-tarea {
             border: 1px solid black;
             background-color: #3335;
-            padding: 0.5em;
+            padding: 0.9em;
             width: 60%;
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 50px black;
         }
-        #wrap-tareas .tarjeta-tarea h3 {
-            font-size: 0.9em;
+        
+        #wrap-tareas .tarjeta-tarea .form-field{
+            display: grid;
+            grid-template-columns: minmax(50px, 0.65fr) minmax(50px, 1.35fr);
+            justify-content: left;
+            gap: 0.50em;
+        }
+        #wrap-tareas .tarjeta-tarea .form-field label{
+
+        }
+        #wrap-tareas .tarjeta-tarea .form-field input, textarea{
+            background-color: #0003;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 0.50em;
+        }
+        #wrap-tareas .tarjeta-tarea .form-field textarea{
+            resize: none;
+            row-gap: 5;
+            min-height: 60px;
+        }
+
+        #wrap-tareas .tarjeta-tarea .form-field .from-submit{
+            border-radius: 5px;
+            padding: 0.25em;
+        }
+        #wrap-tareas .tarjeta-tarea .form-field .from-submit:hover{
+            background-color: red;
+            transform: scale(1.05);
+            border: 1px solid white;
         }
 
         #wrap-tareas .tarjeta-tarea-pendiente {
-            background-color: #00fa;
+            background: linear-gradient(to right, rgba(0, 0, 255, 0.95), rgba(0, 0, 255, 0.5), rgba(0, 50, 255, 0));
+
         }
         #wrap-tareas .tarjeta-tarea-terminada {
-            background-color: #be5d;
+            background: linear-gradient(to right, #fff176dd, #ffe733aa, #ffeb3baa);
+
+
+
         }
+            #wrap-tareas .tarjeta-tarea-terminada * {
+                color: #FFFFFF;
+            }

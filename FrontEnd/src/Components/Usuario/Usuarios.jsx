@@ -1,9 +1,11 @@
-import "./stilos/usuarios.css"
-import { useEffect, useState } from "react"
+import "../stilos/usuarios.css"
+import { useContext, useEffect, useState } from "react"
 import axios from 'axios';
 import TarjetaUsuario from "./TarjetaUsuario";
+import {UserContext} from "../../context/UserContext"
 
 const Usuarios = () => {
+//const {user, setUser} = useContext(UserContext)
 const url = import.meta.env.VITE_API_USER
 const [state, setState] = useState()
 
@@ -12,10 +14,9 @@ useEffect(()=>{
     axios.get(url)
         .then((data)=>{
             setState(data.data)
-            console.log(state)
         })
         .catch((e) => {
-            console.log(e)
+            console.error(e)
         })
 },[])
     if(!state) return <h1>Cargando...</h1>

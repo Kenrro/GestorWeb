@@ -1,4 +1,4 @@
-import "./stilos/menu.css"
+import "../stilos/menu.css"
 const Menu = ()=> {
     return (
         <>

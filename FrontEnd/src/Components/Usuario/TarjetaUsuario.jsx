@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import "./stilos/tarjetausuario.css"
+import "../stilos/tarjetausuario.css"
 const TarjetaUsuario = ({id, name, contraseña}) => {
     return (
        <div className="TarjetaUsuario">

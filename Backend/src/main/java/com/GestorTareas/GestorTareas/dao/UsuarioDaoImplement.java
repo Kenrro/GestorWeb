@@ -59,6 +59,26 @@ public class UsuarioDaoImplement implements UsuarioDao {
         }
         return user;
     }
+    // Sobre carga para el login
+    public Usuario getUser(Usuario user){
+        System.out.println(user.getUserName()+ user.getContrasena());
+        String consulta = "select * from usuarios where username = ? AND password = ?";
+        Usuario userretornar = null;
+        try(Connection con = ConexionSql.getConexion();
+            PreparedStatement pst = con.prepareStatement(consulta)){
+            pst.setString(1, user.getUserName());
+            pst.setString(2, user.getContrasena());
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                userretornar = convertResultToUser(rs);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userretornar;
+    }
         private Usuario convertResultToUser(ResultSet rs){
             Usuario user = null;
             try {

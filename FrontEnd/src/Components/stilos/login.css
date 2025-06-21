@@ -1,0 +1,14 @@
+
+.wrap-content {
+    background-color: #3b00c4;
+    display: grid;
+    align-items: center;
+    min-height: 100vh;
+    justify-items: center;
+    width: 100%;
+    
+}
+#wrap-content form {
+
+}
+    

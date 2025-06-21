@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const TarjetaTarea = ({tarea, cambiarEstado}) => {
+const TarjetaTarea = ({tarea, cambiarEstado, eliminarTarea}) => {
     const [tareaForm, setTareaForm] = useState({...tarea});
 
     useEffect(()=>{
@@ -17,7 +17,10 @@ const TarjetaTarea = ({tarea, cambiarEstado}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        cambiarEstado(tareaForm)
+         const accion = e.nativeEvent.submitter?.value;
+        if(accion ==="Cambiar") cambiarEstado(tareaForm)
+        else if (accion === "Eliminar") eliminarTarea(tareaForm)
+        
     }
 
     return (
@@ -47,8 +50,10 @@ const TarjetaTarea = ({tarea, cambiarEstado}) => {
                 checked={tareaForm.estado}
                 onChange={handleChange}/>
             </div>
-            <div className="form-field">
+            <div className="form-field-enviar">
                 <input className="from-submit" type="submit" value="Cambiar"/>
+                <div></div>
+                <input className="from-submit" type="submit" value="Eliminar"/>
             </div>
         </form>
     )

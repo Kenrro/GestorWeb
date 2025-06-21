@@ -44,10 +44,26 @@ public class UsuarioService {
         try {
             Usuario user = dao.getUser(id);
             if (user == null) {
-                System.out.println("problema aqui");
+                System.out.println("Error obtener usuario");
             }
             else{
                 dto = convertUsuarioToDto(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dto;
+    }
+    // Sobrecarga para login
+    public static UsuarioDTO getUsuarios(Usuario user) {
+        UsuarioDTO dto = null;
+        try {
+            Usuario usuariosretornar = dao.getUser(user);
+            if (user == null) {
+                System.out.println("Error en el login");
+            }
+            else{
+                dto = convertUsuarioToDto(usuariosretornar);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -15,6 +15,7 @@ public interface UsuarioDao {
     
     public boolean createUser(Usuario user);
     public Usuario getUser(String id);
+    public Usuario getUser(Usuario user);
     public boolean deleteUser(String id);
     public boolean updateUser(Usuario user);
     public List<Usuario> getUsers();

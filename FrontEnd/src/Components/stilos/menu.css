@@ -1,8 +1,42 @@
 #menu {
-    width: 100%;
     background-color: rgb(4, 0, 59);
-    padding: 0.5em;
+    padding: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    
 }
     #menu h1 {
         font-weight: bold;
+    }
+    #menu .wrap-caja {
+        display: grid;
+    }
+    #menu #menu-opciones {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        align-items: center;
+        justify-items: center;
+        gap: 0.30em;
+    }
+    #menu #menu-opciones li {
+        display: block;
+        padding: 0.50em;
+        
+        width: 100%;
+        text-align: center;
+    }
+    #menu #menu-opciones li:hover {
+        background-color: #1113;
+        border-right: 1px;
+        border-bottom: 1px;
+        border-left: 1px;
+        border-color: #fff2;
+        border-style: solid;
+        border-width: 0 0.5px 0.5px 0.5px;
+    }
+    #menu #menu-opciones li * {
+        text-decoration: none;
+        color: #eded;
+        width: 100%;
+        display: block;
     }

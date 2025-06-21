@@ -37,13 +37,18 @@ public class UsuarioController {
         List<Usuario> lista = new UsuarioDaoImplement().getUsers();
         return ResponseEntity.ok(lista);
     }
-   
+    @PostMapping("/users/login")
+    public ResponseEntity<UsuarioDTO> getLogin(@RequestBody Usuario user){
+        UsuarioDTO respuesta = UsuarioService.getUsuarios(user);
+        return respuesta != null ? ResponseEntity.ok(respuesta) : ResponseEntity.notFound().build();
+    }
     @PostMapping("/users")
     public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody Usuario user){
         UsuarioDTO nuevo = UsuarioService.crearUsuario(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
         
     }
+    
     // Elimina a un usuario a traves de su id
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable String id){

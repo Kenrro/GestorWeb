@@ -1,0 +1,21 @@
+#wrap-tareas #wrap-agregar-tarea {
+            display: grid;
+            justify-items: center;
+            gap: 10px;
+        }
+            #wrap-tareas #wrap-agregar-tarea button {
+                background: none;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                border: none;
+                transition-duration: 0.2s;
+            }
+            #wrap-tareas #wrap-agregar-tarea button:hover {
+                transform: scale(1.2);
+                box-shadow: 0 0 2px white;
+            }
+            #wrap-tareas #wrap-agregar-tarea #tarjeta-crear-tarea{
+                background-color: #a2a2a2;
+
+            }

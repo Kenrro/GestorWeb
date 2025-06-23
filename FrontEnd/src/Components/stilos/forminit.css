@@ -1,6 +1,20 @@
+
+.wrap-content {
+    background-color: #3b00c4;
+    display: grid;
+    align-items: center;
+    min-height: 100vh;
+    justify-items: center;
+    width: 100%;
+    
+}
+#wrap-content form {
+
+}
 #wrap-register {
     
 }
+
     #wrap-register form {
         display: grid;
         gap: 1em;
@@ -70,4 +84,17 @@
             background-color: #656;
         }
 
-            
+        .input-error {
+            border: 1px solid red;
+            background-color: red;
+        }
+        .boton-submit-desactivado {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .text-error {
+            border: 1px solid red;
+            padding: 0.50em;
+            border-radius: 10px;
+            background-color: #fff2;
+        }

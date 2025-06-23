@@ -2,17 +2,11 @@ import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../../context/UserContext"
 import IconoBasurero from "../iconos/IconoBasurero"
+import "../stilos/inforusuario.css"
 
 const PerfilUsuario = () => {
     const {user, setUser} = useContext(UserContext)
     const url_usuarios = import.meta.env.VITE_API_USER
-    //const [usuario, setUsuario] = useState([])
-    /*useEffect(()=> {
-        axios.get(`${url_usuarios}/${id}`)
-            .then((data) =>{
-                setUsuario(data.data)
-            })
-    }, [id])*/
     const eliminarUsuario = () => {
         axios.delete(`${url_usuarios}/${user.id}`)
             .then((result) => {

@@ -1,0 +1,38 @@
+ #wrap-content .Wrap-info-usuario {
+        width: 80%;
+        margin: auto;
+        padding: 0.75em;
+        border: 1px solid #be5d;
+        background-color: #0002;
+        box-shadow: 0 0 50px black;
+        border-radius: 5px;
+        position: relative;
+    }
+    #wrap-content .Wrap-info-usuario > h2 {
+        font-size: 2em;
+        color: rgba(21, 212, 123, 0.867);
+    }
+    #wrap-content .Wrap-info-usuario span {
+        display: block;
+    }
+    #wrap-content .Wrap-info-usuario button {
+        background: none;
+        border: none;
+        text-align: right;
+        position: absolute;
+        right: 15px;
+        bottom: 10px;
+    }
+    #wrap-content .Wrap-info-usuario button::after {
+        content: "Eliminar";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        visibility: hidden;
+    }
+    #wrap-content .Wrap-info-usuario button:hover {
+        transform: scale(1.1);
+    }
+    #wrap-content .Wrap-info-usuario button:hover::after {
+        visibility: visible;
+    }

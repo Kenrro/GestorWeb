@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react"
 import UserProvider, { UserContext } from "../../context/UserContext"
+import "../stilos/TarjetaNuevaTarea.css"
+
 const TarjetaNuevaTarea = ({recargarTareas})=>{
 
     const {user, setUser} = useContext(UserContext) 

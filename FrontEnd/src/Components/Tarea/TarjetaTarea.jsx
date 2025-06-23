@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import "../stilos/TarjetaTarea.css"
 
 const TarjetaTarea = ({tarea, cambiarEstado, eliminarTarea}) => {
     const [tareaForm, setTareaForm] = useState({...tarea});

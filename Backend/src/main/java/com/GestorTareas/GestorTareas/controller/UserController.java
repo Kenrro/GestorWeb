@@ -4,14 +4,16 @@
  */
 package com.GestorTareas.GestorTareas.controller;
 
-import com.GestorTareas.GestorTareas.dto.UsuarioDTO;
-import com.GestorTareas.GestorTareas.model.Usuario;
-import com.GestorTareas.GestorTareas.service.UsuarioService;
-import com.GestorTareas.GestorTareas.dao.UsuarioDaoImplement;
+import com.GestorTareas.GestorTareas.dto.UserDTO;
+import com.GestorTareas.GestorTareas.model.User;
+import com.GestorTareas.GestorTareas.service.UserService;
+import com.GestorTareas.GestorTareas.dao.UserDaoImplement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -24,42 +26,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UsuarioController {
+public class UserController {
+
+    UserService userService;
+
+    @Autowired
+    public UserController(UserService userService){
+        this.userService = userService;
+    }
+
     // Obtine un usuario especifico por su id
     @GetMapping("/users/{id}")
-    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable String id){
-        UsuarioDTO usuario = UsuarioService.getUsuario(id);
+    public ResponseEntity<UserDTO> getUser(@PathVariable String id){
+        UserDTO usuario = userService.getUsuario(id);
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
     // Obtiene la lista de usuarios
     @GetMapping("/users")
-    public ResponseEntity<List<Usuario>> getUsuarios(){
-        List<Usuario> lista = new UsuarioDaoImplement().getUsers();
+    public ResponseEntity<List<User>> getUsers(){
+        List<User> lista = new UserDaoImplement().getUsers();
         return ResponseEntity.ok(lista);
     }
     @PostMapping("/users/login")
-    public ResponseEntity<UsuarioDTO> getLogin(@RequestBody Usuario user){
-        UsuarioDTO respuesta = UsuarioService.getUsuarios(user);
+    public ResponseEntity<UserDTO> getLogin(@RequestBody User user){
+        UserDTO respuesta = userService.getUsuarios(user);
         return respuesta != null ? ResponseEntity.ok(respuesta) : ResponseEntity.notFound().build();
     }
     @PostMapping("/users")
-    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody Usuario user){
-        UsuarioDTO nuevo = UsuarioService.crearUsuario(user);
+    public ResponseEntity<UserDTO> createUser(@RequestBody User user){
+        UserDTO nuevo = userService.crearUsuario(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
         
     }
     
     // Elimina a un usuario a traves de su id
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable String id){
-        boolean eliminado = UsuarioService.deleteUser(id);
-        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteUser(@PathVariable String id){
+        boolean deleted = userService.deleteUser(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
     // Actualiza al usuario
     @PutMapping("/users")
-    public ResponseEntity<UsuarioDTO> updateUsuario(@RequestBody Usuario usuario){
-        UsuarioDTO actualizado = UsuarioService.updateUser(usuario);
-        return actualizado != null ? ResponseEntity.ok(actualizado) : ResponseEntity.notFound().build();    
+    public ResponseEntity<UserDTO> updateUser(@RequestBody User usuario){
+        UserDTO update = userService.updateUser(usuario);
+        return update != null ? ResponseEntity.ok(update) : ResponseEntity.notFound().build();    
     }
     
     

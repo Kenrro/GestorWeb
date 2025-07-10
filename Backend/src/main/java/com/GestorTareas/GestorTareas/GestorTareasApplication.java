@@ -1,9 +1,9 @@
 package com.GestorTareas.GestorTareas;
 
-import com.GestorTareas.GestorTareas.model.Usuario;
+import com.GestorTareas.GestorTareas.model.User;
 import com.GestorTareas.GestorTareas.dao.ConexionSql;
-import com.GestorTareas.GestorTareas.dao.UsuarioDao;
-import com.GestorTareas.GestorTareas.dao.UsuarioDaoImplement;
+import com.GestorTareas.GestorTareas.dao.UserDao;
+import com.GestorTareas.GestorTareas.dao.UserDaoImplement;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

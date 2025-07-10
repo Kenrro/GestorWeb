@@ -4,28 +4,38 @@
  */
 package com.GestorTareas.GestorTareas.service;
 
-import com.GestorTareas.GestorTareas.dto.UsuarioDTO;
-import com.GestorTareas.GestorTareas.model.Usuario;
-import com.GestorTareas.GestorTareas.dao.UsuarioDao;
-import com.GestorTareas.GestorTareas.dao.UsuarioDaoImplement;
+import com.GestorTareas.GestorTareas.dto.UserDTO;
+import com.GestorTareas.GestorTareas.exception.UserException;
+import com.GestorTareas.GestorTareas.model.User;
+import com.GestorTareas.enums.UserError;
 
-public class UsuarioService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-    private static UsuarioDao dao = new UsuarioDaoImplement();
+import com.GestorTareas.GestorTareas.dao.UserDao;
+import com.GestorTareas.GestorTareas.dao.UserDaoImplement;
+
+@Service
+public class UserService {
+    UserDao dao;
+    @Autowired
+    public UserService(UserDaoImplement dao){
+        this.dao = dao;
+    }
     
         // Convierte un usuario a dto.
-        private static UsuarioDTO convertUsuarioToDto(Usuario user){
-            UsuarioDTO dto = new UsuarioDTO();
+        private  UserDTO convertUsuarioToDto(User user){
+            UserDTO dto = new UserDTO();
             dto.setId(user.getId());
-            dto.setUserName(user.getUserName());
-            dto.setNombre(user.getNombre());
-            dto.setApellido(user.getApellido());
-            dto.setFechCreacion(user.getFechCreacion());
+            dto.setUsername(user.getUsername());
+            dto.setName(user.getName());
+            dto.setLastname(user.getLastname());
+            dto.setCreation_date(user.getCreation_date());
             return dto;
         }
     
-    public static UsuarioDTO crearUsuario(Usuario user){
-        UsuarioDTO dto = null;
+    public UserDTO crearUsuario(User user){
+        UserDTO dto = null;
         try {
             user.setId();
             if (dao.createUser(user)) {
@@ -39,26 +49,26 @@ public class UsuarioService {
         }
         return dto;
     }
-    public static UsuarioDTO getUsuario(String id) {
-        UsuarioDTO dto = null;
+    public UserDTO getUsuario(String id) {
+        UserDTO dto = null;
         try {
-            Usuario user = dao.getUser(id);
+            User user = dao.getUser(id);
             if (user == null) {
-                System.out.println("Error obtener usuario");
+                throw new UserException(UserError.USER_NOT_FOUND);
             }
             else{
                 dto = convertUsuarioToDto(user);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (UserException e) {
+            System.out.println(e.getDescription());
         }
         return dto;
     }
     // Sobrecarga para login
-    public static UsuarioDTO getUsuarios(Usuario user) {
-        UsuarioDTO dto = null;
+    public UserDTO getUsuarios(User user) {
+        UserDTO dto = null;
         try {
-            Usuario usuariosretornar = dao.getUser(user);
+            User usuariosretornar = dao.getUser(user);
             if (user == null) {
                 System.out.println("Error en el login");
             }
@@ -70,7 +80,7 @@ public class UsuarioService {
         }
         return dto;
     }
-    public static boolean deleteUser(String id){
+    public boolean deleteUser(String id){
         boolean resultado = false;
         try{
             resultado = dao.deleteUser(id);
@@ -79,8 +89,8 @@ public class UsuarioService {
         }
         return resultado;
     }
-    public static UsuarioDTO updateUser(Usuario user){
-        UsuarioDTO dto = null;
+    public UserDTO updateUser(User user){
+        UserDTO dto = null;
         try {
             if (dao.updateUser(user)) {
                 dto = convertUsuarioToDto(user);

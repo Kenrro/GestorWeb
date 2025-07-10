@@ -6,28 +6,34 @@ package com.GestorTareas.GestorTareas.service;
 
 // Servicios de tareas
 
-import com.GestorTareas.GestorTareas.dto.TareaDTO;
-import com.GestorTareas.GestorTareas.model.Tarea;
-import com.GestorTareas.GestorTareas.dao.TareaDaoImplement;
+import com.GestorTareas.GestorTareas.dto.TaskDTO;
+import com.GestorTareas.GestorTareas.model.Task;
+import com.GestorTareas.GestorTareas.dao.TaskDaoImplement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TareaService {
-    static TareaDaoImplement dao = new TareaDaoImplement();
-    
-        private static TareaDTO convertTareaToDto(Tarea tarea){
-            TareaDTO dto = new TareaDTO();
+import org.springframework.stereotype.Service;
+
+@Service
+public class TaskService {
+    TaskDaoImplement dao;
+    public TaskService(TaskDaoImplement dao){
+        this.dao = dao;
+    }
+
+        private TaskDTO convertTareaToDto(Task tarea){
+            TaskDTO dto = new TaskDTO();
             dto.setId(tarea.getId());
-            dto.setDescripcion(tarea.getDescripcion());
-            dto.setId_usuario(tarea.getId_usuario());
-            dto.setNombre(tarea.getNombre());
-            dto.setFech_creacion(tarea.getFech_creacion());
-            dto.setEstado(tarea.isEstado());
+            dto.setDescription(tarea.getDescription());
+            dto.setId_user(tarea.getId_user());
+            dto.setName(tarea.getName());
+            dto.setCreation_date(tarea.getCreation_date());
+            dto.setState(tarea.isState());
             return dto;
         }
     
-    public static TareaDTO createTarea(Tarea tarea){
-        TareaDTO dto = null;
+    public TaskDTO createTask(Task tarea){
+        TaskDTO dto = null;
         try{
             tarea.setId();
             if (dao.createTarea(tarea)) {
@@ -41,11 +47,11 @@ public class TareaService {
         }
         return dto;
     }
-    public static TareaDTO getTarea(String id){
-        TareaDTO dto = null;
+    public TaskDTO getTask(String id){
+        TaskDTO dto = null;
         try {
            
-            Tarea tarea = dao.getTarea(id);
+            Task tarea = dao.getTarea(id);
             if (tarea == null) {
                 System.out.println("Tarea no encontrada");
             }else {
@@ -57,8 +63,8 @@ public class TareaService {
         }
         return dto;
     }
-    public static TareaDTO updateTarea(Tarea tarea){
-        TareaDTO dto = null;
+    public TaskDTO updateTask(Task tarea){
+        TaskDTO dto = null;
         try{
             if (dao.updateTarea(tarea)) {
                 dto = convertTareaToDto(tarea);
@@ -69,7 +75,7 @@ public class TareaService {
         }
         return dto;
     }
-    public static boolean deleteTarea(String id){
+    public boolean deleteTask(String id){
         boolean resultado = false;
         try {
             resultado = dao.deleteTarea(id);
@@ -78,8 +84,8 @@ public class TareaService {
         }
         return resultado;
     }
-    public static List<Tarea> getTareas(String id){
-        List<Tarea> lista = new ArrayList<>();
+    public List<Task> getTasks(String id){
+        List<Task> lista = new ArrayList<>();
         try {
             lista = dao.getTareas(id);
         } catch (Exception e) {

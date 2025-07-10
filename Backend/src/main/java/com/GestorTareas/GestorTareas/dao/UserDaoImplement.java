@@ -4,7 +4,7 @@
  */
 package com.GestorTareas.GestorTareas.dao;
 
-import com.GestorTareas.GestorTareas.model.Usuario;
+import com.GestorTareas.GestorTareas.model.User;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,38 +15,46 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author kenrr
  */
-public class UsuarioDaoImplement implements UsuarioDao {
+@Repository
+public class UserDaoImplement implements UserDao {
+    // Querys
+    final String INSERT = "insert into usuarios (id, username, password, nombre, apellido) values (?,?,?,?,?)";
+    final String SELECT = "select * from usuarios where id = ?";
+    final String LOGIN = "select * from usuarios where username = ? AND password = ?";
+    final String DELETE = "delete from usuarios where id = ?";
+    final String selectUsers = "select * from usuarios";
+    final String UPDATE = "update usuarios set nombre = ?, password = ? where id = ?";
 
     @Override
-    public boolean createUser(Usuario user) {
-        String consulta = "insert into usuarios (id, username, password, nombre, apellido) values (?,?,?,?,?)";
+    public boolean createUser(User user) {
         int resultado = 0;
         try(Connection con = ConexionSql.getConexion();
-            PreparedStatement pst = con.prepareStatement(consulta) ){
+            PreparedStatement pst = con.prepareStatement(INSERT) ){
             pst.setString(1, user.getId());
-            pst.setString(2, user.getUserName());
-            pst.setString(3, user.getContrasena());
-            pst.setString(4, user.getNombre());
-            pst.setString(5, user.getApellido());
+            pst.setString(2, user.getUsername());
+            pst.setString(3, user.getPassword());
+            pst.setString(4, user.getName());
+            pst.setString(5, user.getLastname());
             resultado = pst.executeUpdate();
         } catch(SQLException e){
             e.printStackTrace();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado > 0;
     }
-
     @Override
-    public Usuario getUser(String id) {
-        String consulta = "select * from usuarios where id = ?";
-        Usuario user = null;
+    public User getUser(String id) {
+        
+        User user = null;
         try (Connection con = ConexionSql.getConexion();
-             PreparedStatement pst = con.prepareStatement(consulta)){ 
+             PreparedStatement pst = con.prepareStatement(SELECT)){ 
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -60,14 +68,14 @@ public class UsuarioDaoImplement implements UsuarioDao {
         return user;
     }
     // Sobre carga para el login
-    public Usuario getUser(Usuario user){
-        System.out.println(user.getUserName()+ user.getContrasena());
-        String consulta = "select * from usuarios where username = ? AND password = ?";
-        Usuario userretornar = null;
+    public User getUser(User user){
+        System.out.println(user.getUsername()+ user.getPassword());
+        
+        User userretornar = null;
         try(Connection con = ConexionSql.getConexion();
-            PreparedStatement pst = con.prepareStatement(consulta)){
-            pst.setString(1, user.getUserName());
-            pst.setString(2, user.getContrasena());
+            PreparedStatement pst = con.prepareStatement(LOGIN)){
+            pst.setString(1, user.getUsername());
+            pst.setString(2, user.getPassword());
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
                 userretornar = convertResultToUser(rs);
@@ -75,12 +83,12 @@ public class UsuarioDaoImplement implements UsuarioDao {
         } catch (SQLException e){
             e.printStackTrace();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return userretornar;
     }
-        private Usuario convertResultToUser(ResultSet rs){
-            Usuario user = null;
+        private User convertResultToUser(ResultSet rs){
+            User user = null;
             try {
                 String id = rs.getString("id");
                 String username = rs.getString("username");
@@ -88,46 +96,40 @@ public class UsuarioDaoImplement implements UsuarioDao {
                 String nombre = rs.getString("nombre");
                 String apellido = rs.getString("apellido");
                 Date fech = rs.getDate("fech-creacion");
-                user = new Usuario();
-                user.setUserName(username);
-                user.setContrasena(password);
+                user = new User();
+                user.setUsername(username);
+                user.setPassword(password);
                 user.setId(id);
-                user.setNombre(nombre);
-                user.setApellido(apellido);
-                user.setFechCreacion(fech);
+                user.setName(nombre);
+                user.setLastname(apellido);
+                user.setCreation_date(fech);
             } catch (SQLException ex) {
                 throw new RuntimeException("Error de conversion");
             }
             return user;
         }
-
     @Override
     public boolean deleteUser(String id) {
-        String consulta = "delete from usuarios where id = ?";
         int resultado = 0;
         try(Connection con = ConexionSql.getConexion();
-            PreparedStatement pst = con.prepareStatement(consulta)){
+            PreparedStatement pst = con.prepareStatement(DELETE)){
             pst.setString(1, id);
             resultado = pst.executeUpdate();
-            
         } catch (SQLException e){
             throw new RuntimeException("Problema al eliminar usuario");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return resultado > 0;
-            
+        return resultado > 0;            
     }
     @Override
-    public List<Usuario> getUsers() {
-        String consulta = "select * from usuarios";
-        List<Usuario> lista = new ArrayList<>();
-        
+    public List<User> getUsers() {
+        List<User> lista = new ArrayList<>();
         try (Connection con = ConexionSql.getConexion();
-             PreparedStatement pst = con.prepareStatement(consulta)){
+             PreparedStatement pst = con.prepareStatement(selectUsers)){
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Usuario user = convertResultToUser(rs);          
+                User user = convertResultToUser(rs);          
                 lista.add(user);
             }
         } catch (Exception e) {
@@ -136,20 +138,19 @@ public class UsuarioDaoImplement implements UsuarioDao {
     }
 
     @Override
-    public boolean updateUser(Usuario user) {
-        String consulta = "update usuarios set nombre = ?, password = ? where id = ?";
+    public boolean updateUser(User user) {
         int resultado = 0;
         try (Connection con = ConexionSql.getConexion();
-             PreparedStatement pst = con.prepareStatement(consulta)){
-            pst.setString(1, user.getUserName());
-            pst.setString(2, user.getContrasena());
+             PreparedStatement pst = con.prepareStatement(UPDATE)){
+            pst.setString(1, user.getUsername());
+            pst.setString(2, user.getPassword());
             pst.setString(3, user.getId());
             resultado = pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             //throw new RuntimeException("Error al acualizar al usuario");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado > 0;
     }

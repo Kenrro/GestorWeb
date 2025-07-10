@@ -4,16 +4,16 @@
  */
 package com.GestorTareas.GestorTareas.dao;
 
-import com.GestorTareas.GestorTareas.model.Tarea;
+import com.GestorTareas.GestorTareas.model.Task;
 import java.util.List;
 
 
 public interface TareaDao {
     
-    public boolean createTarea(Tarea tarea);
-    public Tarea getTarea(String id);
+    public boolean createTarea(Task tarea);
+    public Task getTarea(String id);
     public boolean deleteTarea(String id);
-    public boolean  updateTarea(Tarea tarea);
-    public List<Tarea> getTareas(String id);
+    public boolean  updateTarea(Task tarea);
+    public List<Task> getTareas(String id);
     
 }

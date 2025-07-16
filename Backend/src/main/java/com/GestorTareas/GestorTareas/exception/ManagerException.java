@@ -4,21 +4,26 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.GestorTareas.enums.UserError;
+import com.GestorTareas.GestorTareas.enums.TaskError;
+import com.GestorTareas.GestorTareas.enums.UserError;
 
-public class UserException extends RuntimeException {
+public class ManagerException extends RuntimeException {
     private HttpStatus status;
     private String description;
     private List<String> reasons;
 
-    public UserException(HttpStatus status, String description, List<String> reasons){
+    public ManagerException(HttpStatus status, String description, List<String> reasons){
         this.status = status;
         this.description = description;
         this.reasons = reasons;
     }
-    public UserException(UserError userError){
-        this.status = userError.getHttpStatus();
-        this.description = userError.getMessage();
+    public ManagerException(TaskError taskCreationFailed){
+        this.status = taskCreationFailed.getHttpStatus();
+        this.description = taskCreationFailed.getMessage();
+    }
+    public ManagerException(UserError userCreationFailed){
+        this.status = userCreationFailed.getHttpStatus();
+        this.description = userCreationFailed.getMessage();
     }
     
     public HttpStatus getStatus() {

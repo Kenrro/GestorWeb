@@ -44,7 +44,7 @@ public class UserController {
     // Obtiene la lista de usuarios
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers(){
-        List<User> lista = new UserDaoImplement().getUsers();
+        List<User> lista = new UserDaoImplement().getItems();
         return ResponseEntity.ok(lista);
     }
     @PostMapping("/users/login")

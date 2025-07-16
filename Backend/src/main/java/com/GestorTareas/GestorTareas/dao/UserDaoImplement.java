@@ -4,6 +4,7 @@
  */
 package com.GestorTareas.GestorTareas.dao;
 
+import com.GestorTareas.GestorTareas.dao.idao.UserDAO;
 import com.GestorTareas.GestorTareas.model.User;
 import java.sql.Connection;
 import java.sql.Date;
@@ -22,17 +23,17 @@ import org.springframework.stereotype.Repository;
  * @author kenrr
  */
 @Repository
-public class UserDaoImplement implements UserDao {
+public class UserDaoImplement implements UserDAO {
     // Querys
-    final String INSERT = "insert into usuarios (id, username, password, nombre, apellido) values (?,?,?,?,?)";
-    final String SELECT = "select * from usuarios where id = ?";
-    final String LOGIN = "select * from usuarios where username = ? AND password = ?";
-    final String DELETE = "delete from usuarios where id = ?";
-    final String selectUsers = "select * from usuarios";
-    final String UPDATE = "update usuarios set nombre = ?, password = ? where id = ?";
+    final String INSERT = "insert into users (id, username, password, name, lastname) values (?,?,?,?,?)";
+    final String SELECT = "select * from users where id = ?";
+    final String LOGIN = "select * from users where username = ? AND password = ?";
+    final String DELETE = "delete from users where id = ?";
+    final String selectUsers = "select * from users";
+    final String UPDATE = "update users set name = ?, password = ? where id = ?";
 
     @Override
-    public boolean createUser(User user) {
+    public boolean create(User user) {
         int resultado = 0;
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(INSERT) ){
@@ -50,7 +51,7 @@ public class UserDaoImplement implements UserDao {
         return resultado > 0;
     }
     @Override
-    public User getUser(String id) {
+    public User get(String id) {
         
         User user = null;
         try (Connection con = ConexionSql.getConexion();
@@ -68,7 +69,8 @@ public class UserDaoImplement implements UserDao {
         return user;
     }
     // Sobre carga para el login
-    public User getUser(User user){
+    @Override
+    public User get(User user){
         System.out.println(user.getUsername()+ user.getPassword());
         
         User userretornar = null;
@@ -93,9 +95,9 @@ public class UserDaoImplement implements UserDao {
                 String id = rs.getString("id");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-                Date fech = rs.getDate("fech-creacion");
+                String nombre = rs.getString("name");
+                String apellido = rs.getString("lastname");
+                Date fech = rs.getDate("creation_date");
                 user = new User();
                 user.setUsername(username);
                 user.setPassword(password);
@@ -109,7 +111,7 @@ public class UserDaoImplement implements UserDao {
             return user;
         }
     @Override
-    public boolean deleteUser(String id) {
+    public boolean delete(String id) {
         int resultado = 0;
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(DELETE)){
@@ -123,7 +125,7 @@ public class UserDaoImplement implements UserDao {
         return resultado > 0;            
     }
     @Override
-    public List<User> getUsers() {
+    public List<User> getItems() {
         List<User> lista = new ArrayList<>();
         try (Connection con = ConexionSql.getConexion();
              PreparedStatement pst = con.prepareStatement(selectUsers)){
@@ -138,7 +140,7 @@ public class UserDaoImplement implements UserDao {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean update(User user) {
         int resultado = 0;
         try (Connection con = ConexionSql.getConexion();
              PreparedStatement pst = con.prepareStatement(UPDATE)){

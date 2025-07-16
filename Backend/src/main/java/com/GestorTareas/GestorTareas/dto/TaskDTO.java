@@ -14,6 +14,8 @@ public class TaskDTO {
     
     private String id;
     private String id_user;
+    private String task_group_id;
+    private String work_id;
     private String name;
     private String description;
     private boolean state;
@@ -43,6 +45,22 @@ public class TaskDTO {
 
     public void setId_user(String id_usuario) {
         this.id_user = id_usuario;
+    }
+
+    public String getTask_group_id() {
+        return task_group_id;
+    }
+
+    public void setTask_group_id(String task_group_id) {
+        this.task_group_id = task_group_id;
+    }
+
+    public String getWork_id() {
+        return work_id;
+    }
+
+    public void setWork_id(String work_id) {
+        this.work_id = work_id;
     }
 
     public String getDescription() {

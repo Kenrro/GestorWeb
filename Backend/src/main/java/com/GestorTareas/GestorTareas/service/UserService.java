@@ -3,103 +3,73 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.GestorTareas.GestorTareas.service;
-
 import com.GestorTareas.GestorTareas.dto.UserDTO;
-import com.GestorTareas.GestorTareas.exception.UserException;
+import com.GestorTareas.GestorTareas.enums.UserError;
+import com.GestorTareas.GestorTareas.exception.ManagerException;
+import com.GestorTareas.GestorTareas.mapper.UserMapper;
 import com.GestorTareas.GestorTareas.model.User;
-import com.GestorTareas.enums.UserError;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.GestorTareas.GestorTareas.dao.UserDao;
 import com.GestorTareas.GestorTareas.dao.UserDaoImplement;
+import com.GestorTareas.GestorTareas.dao.idao.UserDAO;
 
 @Service
 public class UserService {
-    UserDao dao;
+    UserDAO dao;
+    UserMapper mapper;
     @Autowired
-    public UserService(UserDaoImplement dao){
+    public UserService(UserDaoImplement dao,
+                        UserMapper mapper){
         this.dao = dao;
+        this.mapper = mapper; 
     }
-    
-        // Convierte un usuario a dto.
-        private  UserDTO convertUsuarioToDto(User user){
-            UserDTO dto = new UserDTO();
-            dto.setId(user.getId());
-            dto.setUsername(user.getUsername());
-            dto.setName(user.getName());
-            dto.setLastname(user.getLastname());
-            dto.setCreation_date(user.getCreation_date());
-            return dto;
-        }
     
     public UserDTO crearUsuario(User user){
         UserDTO dto = null;
-        try {
-            user.setId();
-            if (dao.createUser(user)) {
-                dto = convertUsuarioToDto(user);
-            }
-            else {
-                System.out.println("fallo");
-            }
-        } catch (Exception ex) {
-            throw new RuntimeException("Problema al conversar al usuario");
+        user.setId();
+        if (dao.create(user)) {
+            dto = mapper.toDto(user);
         }
         return dto;
     }
     public UserDTO getUsuario(String id) {
         UserDTO dto = null;
-        try {
-            User user = dao.getUser(id);
-            if (user == null) {
-                throw new UserException(UserError.USER_NOT_FOUND);
-            }
-            else{
-                dto = convertUsuarioToDto(user);
-            }
-        } catch (UserException e) {
-            System.out.println(e.getDescription());
+        User user = dao.get(id);
+        if (user == null) {
+            throw new ManagerException(UserError.USER_NOT_FOUND);
+        }
+        else{
+            dto = mapper.toDto(user);
         }
         return dto;
     }
     // Sobrecarga para login
     public UserDTO getUsuarios(User user) {
         UserDTO dto = null;
-        try {
-            User usuariosretornar = dao.getUser(user);
-            if (user == null) {
-                System.out.println("Error en el login");
-            }
-            else{
-                dto = convertUsuarioToDto(usuariosretornar);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        User usuariosretornar = dao.get(user);
+        if (usuariosretornar == null) {
+            throw new ManagerException(UserError.USER_LOGIN_FAILED);
+        }
+        else{
+            dto = mapper.toDto(usuariosretornar);
         }
         return dto;
     }
     public boolean deleteUser(String id){
         boolean resultado = false;
-        try{
-            resultado = dao.deleteUser(id);
-        } catch(Exception E){
-            throw new RuntimeException("Error al eliminar al usuario");
+        resultado = dao.delete(id);
+        if (!resultado) {
+            throw new ManagerException(UserError.USER_DELETE_FAILED);
         }
         return resultado;
     }
     public UserDTO updateUser(User user){
         UserDTO dto = null;
-        try {
-            if (dao.updateUser(user)) {
-                dto = convertUsuarioToDto(user);
-            }
-            else System.out.println("No se pudo modificar");
-        } catch (Exception e) {
-            //throw new RuntimeException("Problema al actualizar al usuario");
-            e.printStackTrace();
+
+        if (dao.update(user)) {
+            dto = mapper.toDto(user);
         }
+        else throw new ManagerException(UserError.USER_UPDATE_FAILED);
         return dto;
     }
     

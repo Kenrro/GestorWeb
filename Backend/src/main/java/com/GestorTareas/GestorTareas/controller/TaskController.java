@@ -37,8 +37,8 @@ public class TaskController {
     // Listar tareas de un usuario por su id
     
      @GetMapping("/users/{id}/tareas")
-    public ResponseEntity<List<Task>> getTasks(@PathVariable String id){
-        List<Task> tasks = taskService.getTasks(id);
+    public ResponseEntity<List<TaskDTO>> getTasks(@PathVariable String id){
+        List<TaskDTO> tasks = taskService.getTasks(id);
         return ResponseEntity.ok(tasks);
     }
     

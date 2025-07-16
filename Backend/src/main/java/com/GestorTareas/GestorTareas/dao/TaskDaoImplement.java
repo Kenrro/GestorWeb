@@ -4,6 +4,7 @@
  */
 package com.GestorTareas.GestorTareas.dao;
 
+import com.GestorTareas.GestorTareas.dao.idao.TaskDAO;
 import com.GestorTareas.GestorTareas.model.Task;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,30 +22,30 @@ import org.springframework.stereotype.Repository;
  * @author kenrr
  */
 @Repository
-public class TaskDaoImplement implements TareaDao {
+public class TaskDaoImplement implements TaskDAO {
 
-        final String INSERT = "insert into tareas (id, usuario_id, nombre, descripcion) values (?, ?, ?, ?)";
-        final String SELECT = "select * from tareas where id = ?";
-        final String DELETE = "delete from tareas where id = ?";
-        final String UPDATE = "update tareas set nombre = ?, descripcion = ?, completada = ? where id = ?";
-        final String SELECTLIST = "select * from tareas where usuario_id = ?";
+        final String INSERT = "insert into task (id, user_id, name, description) values (?, ?, ?, ?)";
+        final String SELECT = "select * from task where id = ?";
+        final String DELETE = "delete from task where id = ?";
+        final String UPDATE = "update task set name = ?, description = ?, state = ? where id = ?";
+        final String SELECTLIST = "select * from task where user_id = ?";
     
         private Task convertResultsetToTarea(ResultSet rs){
             Task tarea = new Task();
             try {
             tarea.setId(rs.getString("id"));
-            tarea.setId_user(rs.getString("usuario_id"));
-            tarea.setDescription(rs.getString("descripcion"));
-            tarea.setName(rs.getString("nombre"));
-            tarea.setCreation_date(rs.getDate("fech-creacion"));
-                tarea.setState(rs.getBoolean("completada"));
+            tarea.setId_user(rs.getString("user_id"));
+            tarea.setDescription(rs.getString("description"));
+            tarea.setName(rs.getString("name"));
+            tarea.setCreation_date(rs.getDate("creation_date"));
+                tarea.setState(rs.getBoolean("state"));
             } catch (SQLException ex) {
                 Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
             }
             return tarea;
         }
     @Override
-    public boolean createTarea(Task tarea) {
+    public boolean create(Task tarea) {
         int resultado = 0;
         try (Connection con = ConexionSql.getConexion();
              PreparedStatement pst = con.prepareStatement(INSERT)){
@@ -61,7 +62,7 @@ public class TaskDaoImplement implements TareaDao {
         return resultado > 0;
     }
     @Override
-    public Task getTarea(String id) {
+    public Task get(String id) {
         Task tarea = null;
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(SELECT)){
@@ -78,7 +79,7 @@ public class TaskDaoImplement implements TareaDao {
         return tarea;
     }
     @Override
-    public boolean deleteTarea(String id) {
+    public boolean delete(String id) {
         int rs = 0;
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(DELETE)){
@@ -92,7 +93,7 @@ public class TaskDaoImplement implements TareaDao {
         return rs > 0;
     }
     @Override
-    public boolean updateTarea(Task tarea) {
+    public boolean update(Task tarea) {
         int rs = 0;
         try (Connection con = ConexionSql.getConexion();
              PreparedStatement pst = con.prepareStatement(UPDATE)){
@@ -109,7 +110,7 @@ public class TaskDaoImplement implements TareaDao {
         return rs > 0;
     }
     @Override
-    public List<Task> getTareas(String id) {
+    public List<Task> getItems(String id) {
         List<Task> lista = new ArrayList<>();
         try(Connection con = ConexionSql.getConexion();
             PreparedStatement pst = con.prepareStatement(SELECTLIST)){

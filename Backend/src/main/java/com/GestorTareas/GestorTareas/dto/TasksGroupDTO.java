@@ -1,14 +1,20 @@
-package com.GestorTareas.GestorTareas.model;
+package com.GestorTareas.GestorTareas.dto;
 
-import java.util.List;
+import com.GestorTareas.GestorTareas.model.Permission;
 
-public class TaskGroup {
+public class TasksGroupDTO {
     private String id;
     private String name;
     private boolean visible;
     private boolean restriction;
     private String work_id;
-    private List<Permission> permits;
+    Permission permission;
+    public Permission getPermission() {
+        return permission;
+    }
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
     public String getId() {
         return id;
     }
@@ -38,11 +44,5 @@ public class TaskGroup {
     }
     public void setWork_id(String work_id) {
         this.work_id = work_id;
-    }
-    public List<Permission> getPermits() {
-        return permits;
-    }
-    public void setPermits(List<Permission> permits) {
-        this.permits = permits;
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.GestorTareas.GestorTareas.model;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -16,7 +15,7 @@ public class User {
     private String password;
     private String name;
     private String lastname;
-    private Date creation_date;
+    private LocalDate creation_date;
 
     public String getId() {
         return id;
@@ -61,11 +60,11 @@ public class User {
         this.lastname = lastname;
     }
 
-    public Date getCreation_date() {
+    public LocalDate getCreation_date() {
         return creation_date;
     }
 
-    public void setCreation_date(Date creation_date) {
+    public void setCreation_date(LocalDate creation_date) {
         this.creation_date = creation_date;
     }
 

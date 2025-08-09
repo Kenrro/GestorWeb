@@ -1,14 +1,26 @@
-package com.GestorTareas.GestorTareas.dto;
+package com.GestorTareas.GestorTareas.model;
 
-public class TaskGroupDTO {
-    private String id;
-    private String name;
-    private boolean visible;
-    private boolean restriction;
-    private String work_id;
+import java.util.UUID;
+
+public class TasksGroup {
+    String id;
+    String name;
+    boolean visible;
+    boolean restriction;
+    String work_id;
+    Permission permission;
+    public Permission getPermission() {
+        return permission;
+    }
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
     public String getId() {
         return id;
     }
+    public void setId() {
+        this.id = UUID.randomUUID().toString();
+    } 
     public void setId(String id) {
         this.id = id;
     }

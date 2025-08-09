@@ -2,7 +2,7 @@ package com.GestorTareas.GestorTareas.enums;
 
 import org.springframework.http.HttpStatus;
 
-public enum TaskError {
+public enum TaskError implements IError {
 
     TASK_NOT_FOUND(HttpStatus.NOT_FOUND, "Task not found"),
     TASK_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Task creation failed"),

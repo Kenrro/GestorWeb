@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.GestorTareas.GestorTareas.enums.TaskError;
-import com.GestorTareas.GestorTareas.enums.UserError;
+import com.GestorTareas.GestorTareas.enums.IError;
 
 public class ManagerException extends RuntimeException {
     private HttpStatus status;
@@ -17,13 +16,10 @@ public class ManagerException extends RuntimeException {
         this.description = description;
         this.reasons = reasons;
     }
-    public ManagerException(TaskError taskCreationFailed){
-        this.status = taskCreationFailed.getHttpStatus();
-        this.description = taskCreationFailed.getMessage();
-    }
-    public ManagerException(UserError userCreationFailed){
-        this.status = userCreationFailed.getHttpStatus();
-        this.description = userCreationFailed.getMessage();
+    public <T extends IError> ManagerException(T creationFailed){
+        super(creationFailed.getMessage());
+        this.status = creationFailed.getHttpStatus();
+        this.description = creationFailed.getMessage();
     }
     
     public HttpStatus getStatus() {

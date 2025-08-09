@@ -1,6 +1,7 @@
 package com.GestorTareas.GestorTareas.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import com.GestorTareas.GestorTareas.model.Permission;
 
@@ -10,7 +11,7 @@ public class WorkDTO {
     private String name;
     private String user_id;
     private String description;
-    private Date creation_date;
+    private LocalDate creation_date;
     private Permission permits;
     public Permission getPermits() {
         return permits;
@@ -42,10 +43,10 @@ public class WorkDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-    public Date getCreation_date() {
+    public LocalDate getCreation_date() {
         return creation_date;
     }
-    public void setCreation_date(Date creation_date) {
+    public void setCreation_date(LocalDate creation_date) {
         this.creation_date = creation_date;
     }
 

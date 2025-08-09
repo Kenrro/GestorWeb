@@ -5,16 +5,22 @@
 package com.GestorTareas.GestorTareas.dao;
 
 import com.GestorTareas.GestorTareas.dao.idao.TaskDAO;
+import com.GestorTareas.GestorTareas.enums.ConnectionError;
+import com.GestorTareas.GestorTareas.enums.TaskError;
+import com.GestorTareas.GestorTareas.exception.ManagerException;
+import com.GestorTareas.GestorTareas.mapper.GenericRowMapper;
 import com.GestorTareas.GestorTareas.model.Task;
+import com.GestorTareas.GestorTareas.model.User;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,20 +36,23 @@ public class TaskDaoImplement implements TaskDAO {
         final String UPDATE = "update task set name = ?, description = ?, state = ? where id = ?";
         final String SELECTLIST = "select * from task where user_id = ?";
     
-        private Task convertResultsetToTarea(ResultSet rs){
-            Task tarea = new Task();
-            try {
-            tarea.setId(rs.getString("id"));
-            tarea.setId_user(rs.getString("user_id"));
-            tarea.setDescription(rs.getString("description"));
-            tarea.setName(rs.getString("name"));
-            tarea.setCreation_date(rs.getDate("creation_date"));
-                tarea.setState(rs.getBoolean("state"));
-            } catch (SQLException ex) {
-                Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return tarea;
-        }
+        private static final Logger logger = LoggerFactory.getLogger(WorkDAOImplement.class);
+        GenericRowMapper<Task> mapper = new GenericRowMapper<>(Task.class);
+        // private Task convertResultsetToTarea(ResultSet rs){
+        //     Task tarea = new Task();
+        //     try {
+        //     tarea.setId(rs.getString("id"));
+        //     tarea.setId_user(rs.getString("user_id"));
+        //     tarea.setDescription(rs.getString("description"));
+        //     tarea.setName(rs.getString("name"));
+        //     tarea.setCreation_date(rs.getDate("creation_date"));
+        //         tarea.setState(rs.getBoolean("state"));
+        //     } catch (SQLException ex) {
+        //         logger.error("Error processing to the query result", ex);
+        //         throw new ManagerException(ConnectionError.ERROR_PROCESSING_TO_THE_QUERY_RESULT);
+        //     }
+        //     return tarea;
+        // }
     @Override
     public boolean create(Task tarea) {
         int resultado = 0;
@@ -55,10 +64,9 @@ public class TaskDaoImplement implements TaskDAO {
             pst.setString(4, tarea.getDescription());
             resultado = pst.executeUpdate();            
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            logger.error("Task creation failed", e);
+            throw new ManagerException(TaskError.TASK_CREATION_FAILED);
+        } 
         return resultado > 0;
     }
     @Override
@@ -69,13 +77,12 @@ public class TaskDaoImplement implements TaskDAO {
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                tarea = convertResultsetToTarea(rs);
+                tarea = mapper.mapRow(rs);
             }
         } catch(SQLException e){
-            e.printStackTrace();
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            logger.error("Task not found", e);
+            throw new ManagerException(TaskError.TASK_NOT_FOUND);
+        }
         return tarea;
     }
     @Override
@@ -86,10 +93,9 @@ public class TaskDaoImplement implements TaskDAO {
             pst.setString(1, id);
             rs = pst.executeUpdate();
         } catch(SQLException e){
-            e.printStackTrace();
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            logger.error("Task delete failed", e);
+            throw new ManagerException(TaskError.TASK_DELETE_FAILED);
+        }
         return rs > 0;
     }
     @Override
@@ -103,10 +109,9 @@ public class TaskDaoImplement implements TaskDAO {
             pst.setString(4, tarea.getId());
             rs = pst.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            logger.error("Task update failed", e);
+            throw new ManagerException(TaskError.TASK_UPDATE_FAILED);
+        }
         return rs > 0;
     }
     @Override
@@ -117,14 +122,13 @@ public class TaskDaoImplement implements TaskDAO {
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-               Task tarea = convertResultsetToTarea(rs);
+               Task tarea = mapper.mapRow(rs);
                lista.add(tarea);
             }
         } catch(SQLException e){
-            e.printStackTrace();
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(TaskDaoImplement.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            logger.error("Not task", e);
+            throw new ManagerException(TaskError.TASK_NOT_FOUND);
+        }
         return lista;
     }
 }

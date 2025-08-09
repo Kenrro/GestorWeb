@@ -2,7 +2,7 @@ package com.GestorTareas.GestorTareas.enums;
 
 import org.springframework.http.HttpStatus;
 
-public enum UserError {
+public enum UserError implements IError {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not found"),
     USER_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to created user"),
     USER_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "Invalid login credentials"),

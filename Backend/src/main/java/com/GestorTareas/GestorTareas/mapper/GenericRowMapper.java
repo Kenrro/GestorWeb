@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.GestorTareas.GestorTareas.model.Permission;
+
 public class GenericRowMapper<T> {
 
     private final Class<T> clazz;
@@ -52,6 +54,9 @@ public class GenericRowMapper<T> {
 
         if ((targetType == Boolean.class || targetType == boolean.class) && value instanceof Number) {
         return ((Number) value).intValue() != 0;
+        }
+        if(value instanceof Number && targetType == Permission.class){
+            return Permission.fromId(((Number) value).intValue());
         }
 
         // Conversión de LocalDateTime a LocalDate

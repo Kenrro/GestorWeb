@@ -4,10 +4,7 @@ package com.GestorTareas.GestorTareas.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.GestorTareas.GestorTareas.dto.PermissionDTO;
 import com.GestorTareas.GestorTareas.model.Permission;
 import com.GestorTareas.GestorTareas.model.Work;
 import com.GestorTareas.GestorTareas.service.WorkaParticipationService;
@@ -29,11 +26,11 @@ public class WorkParticipationController {
     }
 
     @PutMapping("/participations/{id}")
-    public ResponseEntity<PermissionDTO> putMethodName(@PathVariable String id, @RequestBody Work entity) {
+    public ResponseEntity<Permission> putMethodName(@PathVariable String id, @RequestBody Work entity) {
         Permission permission = entity.getPermits();
-        PermissionDTO dto = service.updatePermission(entity, id, permission);
+        permission = service.updatePermission(entity, id, permission);
         
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(dto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(permission);
     }
     @PostMapping("/participations/{id}")
     public ResponseEntity<Void> postMethodName(@PathVariable String id,@RequestBody Work work) {

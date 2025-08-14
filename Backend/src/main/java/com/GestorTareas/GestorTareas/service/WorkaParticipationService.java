@@ -8,34 +8,25 @@ import org.springframework.stereotype.Service;
 import com.GestorTareas.GestorTareas.dao.WorkDAOImplement;
 import com.GestorTareas.GestorTareas.dao.WorkParticipationDaoImplement;
 import com.GestorTareas.GestorTareas.dao.idao.WorkParticipationDao;
-import com.GestorTareas.GestorTareas.dto.PermissionDTO;
 import com.GestorTareas.GestorTareas.enums.ParticipateError;
 import com.GestorTareas.GestorTareas.exception.ManagerException;
-import com.GestorTareas.GestorTareas.mapper.PermissionMapper;
 import com.GestorTareas.GestorTareas.model.Permission;
 import com.GestorTareas.GestorTareas.model.Work;
 
 @Service
 public class WorkaParticipationService {
     WorkParticipationDao dao;
-    PermissionMapper mapper;
     private static final Logger logger = LoggerFactory.getLogger(WorkDAOImplement.class);
     @Autowired
-    WorkaParticipationService(WorkParticipationDaoImplement dao,
-                            PermissionMapper mapper){
+    WorkaParticipationService(WorkParticipationDaoImplement dao){
         this.dao = dao;
-        this.mapper = mapper;
     }
-    public PermissionDTO updatePermission(Work work, String user, Permission permission){
-        PermissionDTO dto = null;
+    public Permission updatePermission(Work work, String user, Permission permission){
         Permission result = dao.update(work, user, permission);
-        if (result != null) {
-            dto = mapper.tDto(result);
-        }
-        else {
+        if (result == null) {
             throw new ManagerException(ParticipateError.ERROR_TO_UPDATE_PARTICIPATION);
         }
-        return dto;
+        return result;
     }
     public boolean setParticipation(Work work, String user, Permission permission){
         boolean result = false;

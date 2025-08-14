@@ -38,7 +38,7 @@ public class WorkDAOImplement implements WorkDAO {
                                         "left join users as u on u.id = p.user_id\n" + //
                                         "where work_id = ?";
 
-    final String SELECTWORKSOFUSER = "select works.*, participate.permission_id, works_permissions.name as pname from works\n" + //
+    final String SELECTWORKSOFUSER = "select works.*, participate.permission_id as permits from works\n" + //
                 "                            left join participate on works.id = participate.work_id\n" + //
                 "                            left join works_permissions as works_permissions on works_permissions.id = participate.permission_id where works.user_id = ?";
 
@@ -75,7 +75,7 @@ public class WorkDAOImplement implements WorkDAO {
                 PreparedStatement pst = con.prepareStatement(INSERTPERMIT)){
                     pst.setString(1, work.getUser_id());
                     pst.setString(2, work.getId());
-                    pst.setInt(3, 1);
+                    pst.setInt(3, Permission.ADMINISTRATION.getId());
                     pst.executeUpdate();
                 } catch (SQLException e) {
                     logger.error("Error al asignar permisos al usuario", e.getMessage());
@@ -109,11 +109,7 @@ public class WorkDAOImplement implements WorkDAO {
                 Work work = new Work();
                 while (rs.next()) {
                     work = mapper.mapRow(rs);
-                    Permission permisssion = new Permission();
-                permisssion.setId(rs.getInt("permission_id"));
-                permisssion.setName(rs.getString("pname"));
-                work.setPermits(permisssion);
-                result.add(work);
+                    result.add(work);
                 }
                 
                 

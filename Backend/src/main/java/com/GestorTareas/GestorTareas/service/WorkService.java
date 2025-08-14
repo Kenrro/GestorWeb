@@ -32,10 +32,7 @@ public class WorkService {
         work.setId();
         if (dao.create(work)) {
             dto = mapper.toDTO(work);
-            Permission permit = new Permission();
-            permit.setId(1);
-            permit.setName("Administration");
-            dto.setPermits(permit);
+            dto.setPermits(Permission.ADMINISTRATION);
         }
         else{
             throw new ManagerException(WorkError.WORK_CREATION_FAILED);
